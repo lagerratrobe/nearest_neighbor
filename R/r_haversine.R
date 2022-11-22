@@ -7,6 +7,7 @@ r_haversine <- function(
     lon2
 ) {
   R = 3959.87433 # this is in miles.  For Earth radius in kilometers use 6372.8 km
+  R = 6372800 # this is in meters
   
   # n * (pi/180) converts n from degrees to radians
   dLat <- (lat2 - lat1) * (pi/180)
@@ -27,7 +28,7 @@ r_haversine <- function(
 # lat2 <- 47.524384
 # 
 # r_haversine(lat1, lon1, lat2, lon2)
-#
+# r_haversine(47.6518, -117.4234, 47.524384, -122.374334)
 # Should return:
 #
 # 230.9093 mi

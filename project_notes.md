@@ -117,39 +117,14 @@ it.  (I say "nearest" because I'm not sure right now what that means.)
 For simplicity, let's stipulate the following:
   * return the 5 nearest hospitals that are within 250 miles of any given point
 
-In the past, I've heard people say that even if the closest object was 500 miles away, they always wanted "5" features returned.  That's just stupid, so I'm not doing that.
+In the past, I've heard people say that the want the "5 closest" features returned - no matter how far away they are.  That's just stupid.  Why?  Because the goal of the tool is to capture whether or not an object exists that is "relatively nearby", not to determine whether the closest object is halfway around the planet from us.  Basically, if it's further than 250 miles away, we don't give a shit.
 
 __COORDINATE INDEXING APPROACH:__
 
-My initial approach is to select features from the data set whose coordinate values are within a specific numeric distance.  So for example if my starting location is (47.524384, -122.374334)  and my target hospital is at (47.6518, -117.4234), the straight-line distance between them is roughly 231 miles. (As calculated using the function below)
+My initial approach is to select features from the data set whose coordinate values are within a specific numeric distance.  So for example if my starting location is (47.524384, -122.374334)  and my target hospital is at (47.6518, -117.4234), the straight-line distance between them is roughly 231 miles. (As calculated using a haversine distance function.)
 
+## Testing
 
-Python Haversine function:
-```
-from math import radians, cos, sin, asin, sqrt
-
-def haversine(lat1, lon1, lat2, lon2):
-      R = 3959.87433 # this is in miles.  For Earth radius in kilometers use 6372.8 km
-
-      dLat = radians(lat2 - lat1)
-      dLon = radians(lon2 - lon1)
-      lat1 = radians(lat1)
-      lat2 = radians(lat2)
-
-      a = sin(dLat/2)**2 + cos(lat1)*cos(lat2)*sin(dLon/2)**2
-      c = 2*asin(sqrt(a))
-
-      return R * c
-
-__main__:
-
-  # Usage
-  lon1 = -103.548851
-  lat1 = 32.0004311
-  lon2 = -103.6041946
-  lat2 = 33.374939
-
-  print(haversine(lat1, lon1, lat2, lon2))
-```
+Before I go off and figure out a non-spatial way to do this, let's see what our results SHOULD be by using a proper spatial library, the R `sf` library for example.
 
 
