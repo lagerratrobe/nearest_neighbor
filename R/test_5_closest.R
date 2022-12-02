@@ -6,6 +6,8 @@
 library(sf)
 library(dplyr)
 
+source("R/r_haversine.R")
+
 # will become a function eventually
 fiveClosestHospitals <- function(lat, lon) {}
 
@@ -24,8 +26,12 @@ pt1  47.524384  -122.374334
 pt2  47.6518 -117.4234
 ")
 
+# Create spatial objects
+test_points_sf <- st_as_sf(test_points, coords = c("lon", "lat"),  crs = 4326)
+
 # Distance between 2 points, in meters, using sf
 real_distance <- st_distance(test_points_sf[1,], test_points_sf[2,])
+
 # Set units to NULL
 units(real_distance) <- NULL
 
@@ -46,7 +52,8 @@ sprague <- places_sf %>% filter(FEATURE_NAME == "Sprague", STATE_ALPHA == "WA", 
 jd <- places_sf %>% filter(FEATURE_NAME == "John Day", STATE_ALPHA == "OR")
 sequim <- places_sf %>% filter(FEATURE_NAME == "Sequim", STATE_ALPHA == "WA")
 
-hospitals_sf[sf::st_is_within_distance(sprague, 
+
+hospitals_sf[sf::st_is_within_distance(jd, 
                           hospitals_sf, 
                           58000, 
                           sparse = FALSE),] %>% 
