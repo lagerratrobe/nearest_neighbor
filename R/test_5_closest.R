@@ -5,6 +5,7 @@
 
 library(sf)
 library(dplyr)
+library(data.table)
 
 source("R/r_haversine.R")
 
